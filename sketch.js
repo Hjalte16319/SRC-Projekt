@@ -9,14 +9,11 @@ let A1
 let A2
 
 let curve = []
-
 let PointVal = 0
 
 function setup() 
 {
-	createCanvas(400, 400);
-	
-
+	createCanvas(700, 700);
 }
 
 function draw()
@@ -55,17 +52,8 @@ function draw()
 		
 			}
 		}
-		
-
 	}
-	
-
-
-
-
-
 	background(120)
-	
 	if(t >= 1){
 		t = 0
 		curve = []
@@ -104,8 +92,6 @@ function draw()
 	circle(B1,B2, 5)
 	circle(C1,C2, 5)
 
-
-
 	fill(0,200,0)
 	line(D1,D2,E1,E2)
 
@@ -125,17 +111,9 @@ function draw()
 			last = 0
 		}
 		stroke('yellow')
+		strokeWeight(3)
 		line(curve[i][0],curve[i][1], curve[last][0],curve[last][1])
 		stroke(0,0,0)
+		strokeWeight(1)
 	}
-
-
-
-
-
-
-
-
-
-
 }
