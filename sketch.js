@@ -10,14 +10,23 @@ let A2
 
 let curve = []
 let PointVal = 0
+let paused = false
 
 function setup() 
 {
 	createCanvas(700, 700);
+	frameRate(10)
+
 }
 
 function draw()
-{
+{	if(keyIsDown(32) && paused == false){
+		paused = true
+	}
+	if(keyIsDown(32) && paused == true){
+		paused = false
+	}
+
 
 	if(keyIsDown(49)){
 		PointVal = 0
@@ -31,6 +40,8 @@ function draw()
 	if(keyIsDown(52)){
 		PointVal = 3
 	}
+
+	
 
 	if(mouseIsPressed== true){
 		if(mouseButton == LEFT){
