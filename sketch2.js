@@ -7,3 +7,4 @@ function draw(){
 background(100)
 circle(mouseX, mouseY, 50)
 }
+let k = 0
