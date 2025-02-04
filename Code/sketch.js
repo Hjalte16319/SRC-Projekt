@@ -9,29 +9,38 @@ let player = {
 function setup()
 {
     
-
+    createCanvas(700, 700);
+	frameRate(60)
 
 }
 
 function draw()
 {
-    if (keyIsDown(LEFT_ARROW)) {
+    clear()
+    background(150)
+
+    if (keyIsDown(65)) {
         player.x -= player.speed
     }
     
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(68)) {
        player.x += player.speed
     }
     
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(87)) {
         player.y -= player.speed
     }
     
-    if (keyIsDown(DOWN_ARROW)) {
+    if (keyIsDown(83)) {
         player.y += player.speed
     }
 
-    fill(100,100,100)
+    fill(200,0,0)
     circle(player.x, player.y, player.size)
 
+}
+
+
+function grapple(){
+    
 }
