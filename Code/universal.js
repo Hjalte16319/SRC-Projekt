@@ -2,22 +2,6 @@ function arraysEqual(a, b) {
     return a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
-// boundary = arrey[[top, bund, venstreSide, højreSide], [top, bund, venstreSide, højreSide], [...]]
-function Colission(newX, newY, Boundary,){
-	
-	for(let i = 0; i < Boundary.length; i++){
-		
-		if(newX > Boundary[i][2] && newX < Boundary[i][3] && newY > Boundary[i][0] && newY < Boundary[i][1]){
-			if(currenEnemies[i] && currenEnemies[i].HP > 0){
-				Hitvictim = i
-			}
-			return true
-		}
-	}
-	return false
-} 
-
-
 function drawHitbox(box){
 
 	H = box[1] - box[0]

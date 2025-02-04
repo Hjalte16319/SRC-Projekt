@@ -6,11 +6,20 @@ let player = {
     
 }
 
+
+canvasWidth = 1200
+canvasHeight = 800
+
+//top, bund, højre, venstre
+walls = [[]]
+
+
 function setup()
 {
     
-    createCanvas(700, 700);
-	frameRate(60)
+    createCanvas(canvasWidth, canvasHeight);
+	frameRate(90)
+    
 
 }
 
@@ -18,6 +27,7 @@ function draw()
 {
     clear()
     background(150)
+    
 
     if (keyIsDown(65)) {
         player.x -= player.speed
@@ -37,10 +47,12 @@ function draw()
 
     fill(200,0,0)
     circle(player.x, player.y, player.size)
+    console.log("x"+player.x)
+    console.log("y"+player.y)
 
 }
 
 
 function grapple(){
-    
+
 }
