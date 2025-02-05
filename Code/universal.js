@@ -2,6 +2,22 @@ function arraysEqual(a, b) {
     return a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
+function boxCollided(point, boxIndex){
+	let collided = false;
+	for(let i = 0; i < boxIndex.length; i++){
+		console.log(i)
+		console.log(point)
+		console.log(boxIndex[i])
+
+		if(point[1] > boxIndex[i][0] && point[1] < boxIndex[i][1] && point[0] > boxIndex[i][2] && point[0] < boxIndex[i][3]){
+			console.log("hej")
+			collided = true;
+			return(collided)
+		}
+	}
+	return(collided)
+}
+
 function drawHitbox(box){
 
 	H = box[1] - box[0]
@@ -9,12 +25,10 @@ function drawHitbox(box){
 	x = box[2]
 	y = box[0]
 
-	fill(255,0,0)
+	fill(0,255,0)
 	rect(x,y,W,H)
 	noFill()
-
 }
-
 
 function moveTowards(object, point ){
 	let xmod = 1
@@ -33,9 +47,7 @@ function moveTowards(object, point ){
 	let dirX = dx/(dx+dy) * object.speed * xmod
 	let dirY = dy/(dx+dy) * object.speed * ymod
 
-
 	return([dirX,dirY])
-
 }
 
 function distance(p1, p2){
