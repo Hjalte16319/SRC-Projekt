@@ -5,12 +5,8 @@ function arraysEqual(a, b) {
 function boxCollided(point, boxIndex){
 	let collided = false;
 	for(let i = 0; i < boxIndex.length; i++){
-		console.log(i)
-		console.log(point)
-		console.log(boxIndex[i])
 
 		if(point[1] > boxIndex[i][0] && point[1] < boxIndex[i][1] && point[0] > boxIndex[i][2] && point[0] < boxIndex[i][3]){
-			console.log("hej")
 			collided = true;
 			return(collided)
 		}
