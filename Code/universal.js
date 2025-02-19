@@ -46,6 +46,33 @@ function moveTowards(object, point ){
 	return([dirX,dirY])
 }
 
+function dirVal(pointA, pointB ){
+	let xmod = 1
+	let ymod = 1
+
+	if(pointA[0] - pointB[0] > 0){
+		xmod = -1
+	}
+	if(pointA[1] - pointB[1] > 0){
+		ymod = -1
+	}
+
+	let dx = Math.abs(pointA[0] - pointB[0])
+	let dy = Math.abs(pointA[1] - pointB[1])
+	
+	let dirX = dx/(dx+dy) * xmod
+	let dirY = dy/(dx+dy) * ymod
+
+	console.log(dirX, dirY )
+	return([dirX,dirY])
+}
+
+function ortogDirVal(dirX, dirY){
+	let ortogX = dirY * -1
+	let ortogY = dirX
+	return([ortogX, ortogY])
+}
+
 function distance(p1, p2){
 	let dx = Math.abs(p1[0] - p2[0])
 	let dy = Math.abs(p1[1] - p2[1])
