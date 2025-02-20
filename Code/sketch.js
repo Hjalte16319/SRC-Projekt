@@ -18,6 +18,7 @@ let grapHook = {
 
     pointAmount: 5,
     points: [],
+    hitLength: 0
     
 }
 
@@ -25,6 +26,9 @@ let grappeling = false
 let globStart
 let globUx
 let globUy
+let offsetDist;
+let ropePassCounter = 0;
+let swingAm = 0
 
 canvasWidth = 1200
 canvasHeight = 800
@@ -72,6 +76,11 @@ function mouseReleased(){
     grapHook.ySpeed = 0
     grapHook.shot = false
     grapHook.hit = false
+    grapHook.hitLength = 0
+    offsetDist = 0
+    ropePassCounter = 0
+    swingAm = 0
+    
 }
 
 
@@ -115,6 +124,11 @@ function grapple(){
             player.x = xPos
             player.y = yPos
         }
+        if(grapHook.hitLength == 0){
+            grapHook.hitLength = distance(grapHook.start, grapHook.end)
+            swingAm = 20 * grapHook.hitLength/100
+
+        }
     
     }
 
@@ -126,45 +140,120 @@ function grapple(){
 
 function grappleAnim(){
 
+    
+
     //linePoints
     let tempPoints = []
     let dir = dirVal(grapHook.start, grapHook.end)
+
+    
     
     for(let i = 0; i < grapHook.pointAmount; i++){
+       
         let dist = distance(grapHook.start, grapHook.end)
         let xPos = grapHook.start[0] + dir[0] * (i/grapHook.pointAmount) * dist
         let yPos = grapHook.start[1] + dir[1] * (i/grapHook.pointAmount) * dist
         tempPoints.push([xPos, yPos])
+       
     }
     grapHook.points = tempPoints
-    //console.log(grapHook.points)
+    
+    
    
     //bezier outer points
     let outerPoints = []
     let ortogDir = ortogDirVal(dir[0], dir[1])
 
-    for(let i = 0; i < grapHook.points.length; i++){
+    
+
+    for(let i = 0; i < grapHook.points.length ; i++){
+        
         if(i > 0){
+
             let pStart = grapHook.points[i - 1];
             let pEnd = grapHook.points[i];
-            let xPos = (pStart[0] + pEnd[0])/2 +
+            let dist = distance(pStart, pEnd)
+            let totalDist = distance(grapHook.start, grapHook.end)
 
 
-            outerPoints.push()
+            if(!grapHook.hit){
+                offsetDist =  totalDist/ 3
+            }
+            else if(grapHook.hit){
+
+                if(totalDist > 100){
+
+                    if(ropePassCounter == 0){
+                        offsetDist -= grapHook.hitLength/200
+                        if(offsetDist < -swingAm){
+                            ropePassCounter = 1
+                        }
+                    }
+                    else if(ropePassCounter == 1){
+                        offsetDist += grapHook.hitLength/200
+                        if(offsetDist > swingAm){
+                            ropePassCounter = 0
+                        }
+
+                    }
+                   
+                }
+
+            }
+            
+            if(i % 2 === 0){
+                let xPos1 = (pStart[0] + dir[0] * dist * 0.3) + ortogDir[0] * offsetDist
+                let yPos1 = (pStart[1] + dir[1] * dist * 0.3) + ortogDir[1] * offsetDist
+    
+                let xPos2 = (pStart[0] + dir[0] * dist * 0.7) + ortogDir[0] * offsetDist
+                let yPos2 = (pStart[1] + dir[1] * dist * 0.7) + ortogDir[1] * offsetDist
+
+                outerPoints.push([xPos1, yPos1], [xPos2, yPos2])
+            }
+            else if(!i % 2 === 0){
+                let xPos1 = (pStart[0] + dir[0] * dist * 0.3) - ortogDir[0] * offsetDist
+                let yPos1 = (pStart[1] + dir[1] * dist * 0.3) - ortogDir[1] * offsetDist
+    
+                let xPos2 = (pStart[0] + dir[0] * dist * 0.7) - ortogDir[0] * offsetDist
+                let yPos2 = (pStart[1] + dir[1] * dist * 0.7) - ortogDir[1] * offsetDist
+
+                outerPoints.push([xPos1, yPos1], [xPos2, yPos2])
+               
+            }
+
         }
-        else if(i == 0){
-
-        }
+      
+        
     }
 
+    for(let i = 0; i < outerPoints.length; i++){
+        grapHook.points.push([outerPoints[i][0], outerPoints[i][1]])
+    }
+    
     // draw the points
     for(let i = 0; i < grapHook.points.length; i++){
+        
         circle(grapHook.points[i][0], grapHook.points[i][1], 10)
     }
     circle(grapHook.end[0], grapHook.end[1], 10)
+    console.log(swingAm)
+
+    if(swingAm > 3){
+        if(swingAm > 50){
+            swingAm -= grapHook.hitLength/200
+        }
+        else{
+            swingAm -= Math.abs(swingAm/10)
+        }
+    }
+    else{
+        swingAm = 0
+    }
+    
 
 
-
+    
+    
     
 }
 

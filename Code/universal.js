@@ -63,7 +63,6 @@ function dirVal(pointA, pointB ){
 	let dirX = dx/(dx+dy) * xmod
 	let dirY = dy/(dx+dy) * ymod
 
-	console.log(dirX, dirY )
 	return([dirX,dirY])
 }
 
