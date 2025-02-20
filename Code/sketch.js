@@ -54,7 +54,7 @@ function draw()
 
     if(mouseIsPressed == true && mouseButton == LEFT && grappeling == false){
         grapple()
-        line(grapHook.start[0], grapHook.start[1], grapHook.end[0], grapHook.end[1])
+        
 
     }
 
@@ -140,14 +140,10 @@ function grapple(){
 
 function grappleAnim(){
 
-    
-
     //linePoints
     let tempPoints = []
     let dir = dirVal(grapHook.start, grapHook.end)
 
-    
-    
     for(let i = 0; i < grapHook.pointAmount; i++){
        
         let dist = distance(grapHook.start, grapHook.end)
@@ -157,14 +153,11 @@ function grappleAnim(){
        
     }
     grapHook.points = tempPoints
-    
-    
-   
+    grapHook.points.push(grapHook.end)
+
     //bezier outer points
     let outerPoints = []
     let ortogDir = ortogDirVal(dir[0], dir[1])
-
-    
 
     for(let i = 0; i < grapHook.points.length ; i++){
         
@@ -181,28 +174,27 @@ function grappleAnim(){
             }
             else if(grapHook.hit){
 
-                if(totalDist > 100){
+                if(ropePassCounter == 0){
 
-                    if(ropePassCounter == 0){
-                        offsetDist -= grapHook.hitLength/200
-                        if(offsetDist < -swingAm){
-                            ropePassCounter = 1
-                        }
-                    }
-                    else if(ropePassCounter == 1){
-                        offsetDist += grapHook.hitLength/200
-                        if(offsetDist > swingAm){
-                            ropePassCounter = 0
-                        }
+                    offsetDist -= grapHook.hitLength/200
 
+                    if(offsetDist < -swingAm){
+                        ropePassCounter = 1
                     }
-                   
                 }
 
+                else if(ropePassCounter == 1){
+                    offsetDist += grapHook.hitLength/200
+                    if(offsetDist > swingAm){
+                        ropePassCounter = 0
+                    }
+
+                }
+                   
             }
             
             if(i % 2 === 0){
-                let xPos1 = (pStart[0] + dir[0] * dist * 0.3) + ortogDir[0] * offsetDist
+                let xPos1 = (pStart[0] + dir[0] * dist * 0.3) + ortogDir[0] * offsetDist 
                 let yPos1 = (pStart[1] + dir[1] * dist * 0.3) + ortogDir[1] * offsetDist
     
                 let xPos2 = (pStart[0] + dir[0] * dist * 0.7) + ortogDir[0] * offsetDist
@@ -230,17 +222,31 @@ function grappleAnim(){
         grapHook.points.push([outerPoints[i][0], outerPoints[i][1]])
     }
     
-    // draw the points
-    for(let i = 0; i < grapHook.points.length; i++){
-        
-        circle(grapHook.points[i][0], grapHook.points[i][1], 10)
-    }
-    circle(grapHook.end[0], grapHook.end[1], 10)
-    console.log(swingAm)
 
+    let bezierPCounter = 0
+
+    for(let i = 1; i < tempPoints.length; i++){
+        let p0 = tempPoints[i-1]
+        let p3 = tempPoints[i]
+
+
+        if (bezierPCounter + 1 < outerPoints.length) {
+            let p1 = outerPoints[bezierPCounter]
+            let p2 = outerPoints[bezierPCounter+1]
+
+            drawQuadBezier(p0, p1, p2, p3)
+            bezierPCounter += 2
+        }
+
+        
+    }
+   
+
+
+    //change swing amount
     if(swingAm > 3){
         if(swingAm > 50){
-            swingAm -= grapHook.hitLength/200
+            swingAm -= grapHook.hitLength/150
         }
         else{
             swingAm -= Math.abs(swingAm/10)
@@ -249,12 +255,8 @@ function grappleAnim(){
     else{
         swingAm = 0
     }
-    
+    strokeWeight(1);
 
-
-    
-    
-    
 }
 
 

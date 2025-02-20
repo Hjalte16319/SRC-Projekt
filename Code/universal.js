@@ -111,3 +111,34 @@ function soundFade(vol1, vol2, sound1, sound2, fadeSpeed, maxvol){
 	}
 }
 
+
+function drawQuadBezier(p0, p1, p2, p3) {
+    let curve = [];
+    for (let t = 0; t <= 1.00001; t += 0.01) { 
+        let A1 = lerp(p0[0], p1[0], t);
+        let A2 = lerp(p0[1], p1[1], t);
+        let B1 = lerp(p1[0], p2[0], t);
+        let B2 = lerp(p1[1], p2[1], t);
+        let C1 = lerp(p2[0], p3[0], t);
+        let C2 = lerp(p2[1], p3[1], t);
+
+        let D1 = lerp(A1, B1, t);
+        let D2 = lerp(A2, B2, t);
+        let E1 = lerp(B1, C1, t);
+        let E2 = lerp(B2, C2, t);
+
+        let F1 = lerp(D1, E1, t);
+        let F2 = lerp(D2, E2, t);
+
+        curve.push([F1, F2]);
+    }
+
+    // Draw the curve
+    for (let p = 1; p < curve.length; p++) {
+        let last = p - 1;
+        stroke(0, 0, 0);
+        strokeWeight(3);
+        line(curve[p][0], curve[p][1], curve[last][0], curve[last][1]);
+    }
+}
+
