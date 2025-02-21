@@ -1,8 +1,8 @@
-function arraysEqual(a, b) {
+function arraysEqual(a, b) { // calculates if two arrayes are the same
     return a.length === b.length && a.every((val, index) => val === b[index]);
 }
 
-function boxCollided(point, boxIndex){
+function boxCollided(point, boxIndex){ //Calculate if a point is inside a box, with the box parimiters being: [top, bottom, right, left]
 	let collided = false;
 	for(let i = 0; i < boxIndex.length; i++){
 
@@ -14,7 +14,7 @@ function boxCollided(point, boxIndex){
 	return(collided)
 }
 
-function drawHitbox(box){
+function drawHitbox(box){ //Draws a rectangel based on a box with the sides notation: [top, bottom, right, left]
 
 	H = box[1] - box[0]
 	W = box[3] - box[2]
@@ -26,7 +26,7 @@ function drawHitbox(box){
 	noFill()
 }
 
-function moveTowards(object, point ){
+function moveTowards(object, point ){ //Calculates a direction for an object to move towards a point, where the object and point has an x and y coordinate value
 	let xmod = 1
 	let ymod = 1
 
@@ -46,7 +46,7 @@ function moveTowards(object, point ){
 	return([dirX,dirY])
 }
 
-function dirVal(pointA, pointB ){
+function dirVal(pointA, pointB ){ //Calculates a direction for a point to move towards another point, where the points has an x and y coordinate value
 	let xmod = 1
 	let ymod = 1
 
@@ -60,19 +60,19 @@ function dirVal(pointA, pointB ){
 	let dx = Math.abs(pointA[0] - pointB[0])
 	let dy = Math.abs(pointA[1] - pointB[1])
 	
-	let dirX = dx/(dx+dy) * xmod
+	let dirX = dx/(dx+dy) * xmod	
 	let dirY = dy/(dx+dy) * ymod
 
 	return([dirX,dirY])
 }
 
-function ortogDirVal(dirX, dirY){
+function ortogDirVal(dirX, dirY){ // calculates the ortogonal direction vector, of another direction vector
 	let ortogX = dirY * -1
 	let ortogY = dirX
 	return([ortogX, ortogY])
 }
 
-function distance(p1, p2){
+function distance(p1, p2){ //calculates the distance between two points
 	let dx = Math.abs(p1[0] - p2[0])
 	let dy = Math.abs(p1[1] - p2[1])
 
@@ -80,39 +80,7 @@ function distance(p1, p2){
 	return(dist)
 }
 
-function calcVol(max, x, y, dist){
-	dist = 40 * scaleFactor
-
-	let vol = 1 - (Math.sqrt(Math.abs(player.x - x)**2 + Math.abs(player.y - y)**2)  / dist)
-	if(vol > max){
-		vol = max
-	}
-	else if(vol < 0){
-		vol = 0
-	}
-	return vol
-}
-
-
-function soundFade(vol1, vol2, sound1, sound2, fadeSpeed, maxvol){
-	vol1 -= fadeSpeed
-	vol2 += fadeSpeed
-	
-	sound1.setVolume(vol1)
-	sound2.setVolume(vol2)
-
-	if(vol1 <= 1-maxvol){
-		sound1.stop()
-		callrelaxed = false
-	}
-
-	if(!sound2.isPlaying() && sound2){
-		sound2.loop();
-	}
-}
-
-
-function drawQuadBezier(p0, p1, p2, p3) {
+function drawQuadBezier(p0, p1, p2, p3) { // calculates and draws a quadrotic bézier curve using de casteljau's algorithm
     let curve = [];
     for (let t = 0; t <= 1.00001; t += 0.01) { 
         let A1 = lerp(p0[0], p1[0], t);
